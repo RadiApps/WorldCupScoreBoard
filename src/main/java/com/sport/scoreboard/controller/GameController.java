@@ -11,6 +11,7 @@ import javax.xml.bind.ValidationException;
 import java.util.Set;
 
 public class GameController  {
+
     Logger logger= LoggerFactory.getLogger(GameController.class);
     private final LiveScoreboard liveScoreboard;
     private final SummaryScoreboard summaryScoreboard;
