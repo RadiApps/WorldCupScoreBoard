@@ -8,16 +8,16 @@ import java.util.stream.Collectors;
 
 public class LiveScoreboard implements  ScoreBoardService{
 
-    private final Set<Match> liveMatches=new HashSet<Match>();
+    private final List<Match> liveMatches=new ArrayList<Match>();
 
     @Override
-    public Set<Match> getAll() {
+    public List<Match> getAll() {
         return liveMatches;
     }
 
     @Override
-    public Set<Match> getByTeam(Team team) {
-         return liveMatches.stream().filter(o->o.getAwayTeam().equals(team)||o.getHomeTeam().equals(team)).collect(Collectors.toSet());
+    public List<Match> getByTeam(Team team) {
+         return liveMatches.stream().filter(o->o.getAwayTeam().equals(team)||o.getHomeTeam().equals(team)).collect(Collectors.toList());
     }
 
     @Override
@@ -30,7 +30,12 @@ public class LiveScoreboard implements  ScoreBoardService{
         liveMatches.add(match);
     }
     public void finishMatch(Match match){
-        liveMatches.remove(match);
+        for (Iterator<Match> iterator = liveMatches.iterator(); iterator.hasNext();) {
+            Match m =  iterator.next();
+            if (m.getHomeTeam().equals(match.getHomeTeam())&&m.getAwayTeam().equals(match.getAwayTeam())) {
+                iterator.remove();
+            }
+        }
     }
 
     public  boolean checkTeamPlay(Team team){

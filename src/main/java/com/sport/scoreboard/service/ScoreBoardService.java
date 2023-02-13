@@ -8,8 +8,8 @@ import java.util.Optional;
 import java.util.Set;
 
 public interface ScoreBoardService {
-   Set<Match> getAll();
-   Set<Match> getByTeam(Team team);
+   List<Match> getAll();
+   List<Match> getByTeam(Team team);
    Optional<Match> getByHomeTeamAndAwayTeam(Team homeTeam, Team awayTeam);
    void addMatch(Match match);
 

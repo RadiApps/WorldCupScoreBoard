@@ -8,10 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.xml.bind.ValidationException;
+import java.util.List;
 import java.util.Set;
 
 public class GameController  {
-
     Logger logger= LoggerFactory.getLogger(GameController.class);
     private final LiveScoreboard liveScoreboard;
     private final SummaryScoreboard summaryScoreboard;
@@ -49,9 +49,27 @@ public class GameController  {
             logger.info("Match is Not live",e.getMessage());
         }
     }
-    public Set<Match> getSummary(){
+    public Set<Match> getSummaryOrdered(){
         return summaryScoreboard.getSummaryOrderedByTotalScoreAndDateDesc();
     }
+    public void updateMatchScore(Match updatedMatch,int homeTeamScore,int awayTeamScore){
+        try {
 
+        Match liveMatch = liveScoreboard.getByHomeTeamAndAwayTeam(updatedMatch.getHomeTeam(),updatedMatch.getAwayTeam())
+                .orElseThrow(()->new ValidationException("Match is Not live to update the score"));
 
+        liveMatch.setHomeTeamScore(homeTeamScore);
+        liveMatch.setAwayTeamScore(awayTeamScore);
+        logger.info("Match score has been updated");
+
+        } catch (ValidationException e) {
+            logger.info("Match is Not live to update score",e.getMessage());
+        }
+    }
+    public List<Match> getAllLiveMatchs(){
+        return liveScoreboard.getAll();
+    }
+    public List<Match> getAllSummaryMatchs(){
+        return summaryScoreboard.getAll();
+    }
 }

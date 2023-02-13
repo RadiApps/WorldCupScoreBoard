@@ -8,16 +8,16 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class SummaryScoreboard implements ScoreBoardService {
-    private final Set<Match> summaryMatches=new HashSet<Match>();
+    private final List<Match> summaryMatches=new ArrayList<Match>();
 
     @Override
-    public Set<Match> getAll() {
+    public List<Match> getAll() {
         return summaryMatches;
     }
 
     @Override
-    public Set<Match> getByTeam(Team team) {
-        return summaryMatches.stream().filter(o->o.getAwayTeam().equals(team)||o.getHomeTeam().equals(team)).collect(Collectors.toSet());
+    public List<Match> getByTeam(Team team) {
+        return summaryMatches.stream().filter(o->o.getAwayTeam().equals(team)||o.getHomeTeam().equals(team)).collect(Collectors.toList());
     }
 
     @Override
@@ -30,11 +30,10 @@ public class SummaryScoreboard implements ScoreBoardService {
         summaryMatches.add(match);
     }
 
-    public Set<Match> getSummaryOrderedByTotalScore(){
-        return summaryMatches.stream().sorted(Comparator.comparingInt(o->o.getHomeTeamScore()+o.getAwayTeamScore())).collect(Collectors.toSet());
+    public List<Match> getSummaryOrderedByTotalScore(){
+        return summaryMatches.stream().sorted(Comparator.comparingInt(o->o.getHomeTeamScore()+o.getAwayTeamScore())).collect(Collectors.toList());
     }
     public Set<Match> getSummaryOrderedByTotalScoreAndDateDesc(){
-        summaryMatches.stream().sorted((Comparator<Match>) new ComparatorMatch()).collect(Collectors.toSet());
-        return summaryMatches;
+       return summaryMatches.stream().sorted((Comparator<Match>) new ComparatorMatch()).collect(Collectors.toSet());
     }
 }

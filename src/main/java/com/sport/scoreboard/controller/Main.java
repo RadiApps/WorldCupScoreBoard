@@ -22,7 +22,7 @@ public class Main {
 
         controller.endMatch(match1);
 
-        controller.getSummary().stream().forEach(o->{
+        controller.getSummaryOrdered().stream().forEach(o->{
             System.out.println(o.toString());
         });
 
